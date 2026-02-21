@@ -1,0 +1,5 @@
+data/raw/
+dvc-storage/
+__pycache__/
+*.pyc
+.env
