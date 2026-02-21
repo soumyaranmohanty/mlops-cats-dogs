@@ -1,0 +1,23 @@
+artifact_path: /Users/soumya/Documents/mlops_assign2/mlops-cats-dogs/mlruns/1/models/m-402589c75c8d4dc7a727f52542b8747b/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.14.2
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.10.0
+mlflow_version: 3.8.1
+model_id: m-402589c75c8d4dc7a727f52542b8747b
+model_size_bytes: 47802509
+model_uuid: m-402589c75c8d4dc7a727f52542b8747b
+prompts: null
+run_id: 003a6d4d02154006823d3f8c7a5840e8
+utc_time_created: '2026-02-21 19:58:59.162263'
