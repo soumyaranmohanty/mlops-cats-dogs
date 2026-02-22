@@ -6,6 +6,12 @@ import io
 
 from src.models.model import SimpleCNN
 
+import time
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+request_count = 0
 app = FastAPI()
 
 # Load model
@@ -32,6 +38,12 @@ def health():
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
+    start_time = time.time()
+    global request_count
+    request_count += 1
+
+    logger.info("Received prediction request")
+
     image_bytes = await file.read()
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
@@ -41,9 +53,20 @@ async def predict(file: UploadFile = File(...)):
         outputs = model(image)
         probs = torch.softmax(outputs, dim=1).cpu().numpy()[0]
 
-    result = {
-        "prediction": classes[int(probs.argmax())],
-        "probabilities": probs.tolist()
+    prediction = classes[int(probs.argmax())]
+
+    latency = time.time() - start_time
+
+    logger.info(f"Prediction: {prediction}, Latency: {latency:.4f}s")
+
+    return {
+        "prediction": prediction,
+        "probabilities": probs.tolist(),
+        "latency": latency
     }
 
-    return result
+@app.get("/metrics")
+def metrics():
+    return {
+        "total_requests": request_count
+    }
